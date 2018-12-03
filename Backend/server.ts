@@ -6,7 +6,7 @@ const app = express()
 app.use(
     cors(),
     express.json(),
-    express.urlencoded()
+    express.urlencoded({extended:false})
 )
 
 app.post('/login', (req, res, next) => {
