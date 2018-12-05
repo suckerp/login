@@ -1,13 +1,13 @@
+require('dotenv').config()
 import express = require('express')
 import cors = require('cors')
-require('dotenv').config()
-import { User } from './model/ownTypes'
-import { database as db } from './model/dbAccess'
+import fs = require('fs')
+import https = require('https')
 
-import * as pem from 'pem'
-import {createServer} from 'https'
-
-
+//import { User } from './model/ownTypes'
+//import { database as db } from './model/dbAccess'
+//import {createServer} from 'https'
+//import * as pem from 'pem'
 
 import {
     authentificationRoute, 
@@ -15,6 +15,8 @@ import {
 } from './routes'
 
 const app = express()
+const privateKey = fs.readFileSync('key.pem')
+const certificate = fs.readFileSync('cert.pem')
 
 
 app.use(
@@ -24,12 +26,21 @@ app.use(
     authentificationRoute
 )
 
-app.use(express.static('./src/public'))
 
+https.createServer({
+    key: privateKey,
+    cert: certificate
+}, app).listen(process.env.SSL_PORT);
+
+
+/*
+// benötigt OpenSLL um zu funktionieren
 pem.createCertificate({ days: 365, selfSigned: true },  (err, keys) => {    
     createServer({ key: keys.serviceKey, cert: keys.certificate }, app).listen(process.env.SSL_PORT)
 })
+*/
 
+app.use(express.static('./public'))
 
 
 app.listen(process.env.PORT, ()=>{
