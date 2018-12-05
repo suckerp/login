@@ -5,7 +5,7 @@ use Credentials;
 
 create table Users (
     ID int not null auto_increment,
-    EMail varchar(255) not null,
+    EMail varchar(250) not null,
     Salz varchar(255) not null,
     Passwort varchar(255),
     primary key (ID),
