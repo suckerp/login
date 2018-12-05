@@ -19,7 +19,7 @@ class Database {
         return rows
     }
 
-    async checkUser(email, pw) {
+    async checkUser(email:string, pw:string) {
         const [rows, fields] = await this.pool.query(`
             select id from users where email="${email}" and
             passwort = SHA2(CONCAT(salz,"${pw}"),512)

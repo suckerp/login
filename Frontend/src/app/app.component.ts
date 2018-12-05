@@ -30,9 +30,9 @@ export class AppComponent {
   ){}
 
   login(){
-    this.http.post('http://localhost:3000/login', {
+    this.http.post('https://localhost/login', {
       email: "test1@test.de",
-      password: "pw"
+      pw: "test"
     })
     .subscribe(
       (x:any) => {
@@ -45,7 +45,7 @@ export class AppComponent {
   }
 
   token(){
-    this.http.post('http://localhost:3000/token', {
+    this.http.post('https://localhost/token', {
     })
     .subscribe(
       (x:any) => {
