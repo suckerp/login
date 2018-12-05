@@ -31,10 +31,10 @@ pem.createCertificate({ days: 365, selfSigned: true },  (err, keys) => {
 })
 
 
-/*
+
 app.listen(process.env.PORT, ()=>{
         console.log(`
         Server wurde gestartet
         url: http://localhost:${process.env.PORT} 
     `)
-})*/
+})
