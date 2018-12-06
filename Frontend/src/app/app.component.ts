@@ -29,8 +29,11 @@ export class AppComponent {
     private http:HttpClient
   ){}
 
+
+  //beim Build nur den relativen Pfad angeben
   login(){
-    this.http.post('https://localhost/login', {
+    //this.http.post('https://localhost/login', {
+    this.http.post('/login', {
       email: "test1@test.de",
       pw: "test"
     })
@@ -45,7 +48,8 @@ export class AppComponent {
   }
 
   token(){
-    this.http.post('https://localhost/token', {
+    //this.http.post('https://localhost/token', {
+    this.http.post('/token', {
     })
     .subscribe(
       (x:any) => {
@@ -58,7 +62,8 @@ export class AppComponent {
   }
 
   newUser(email, pw) {
-    this.http.post('http://localhost:3000/newUser', {
+    //this.http.post('http://localhost:3000/newUser', {
+    this.http.post('/newUser', {
       email,
       pw
     })
@@ -74,7 +79,8 @@ export class AppComponent {
   }
 
   checkUser(email, pw) {
-    this.http.post('http://localhost:3000/checkUser', {
+    //this.http.post('http://localhost:3000/checkUser', {
+    this.http.post('/checkUser', {
       email,
       pw
     })

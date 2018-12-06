@@ -5,7 +5,7 @@
     "DB_NAME":"credentials",
     "PORT":"3000",
     "SSL_PORT":"443",
-    "JWT_ENCRYPTION":"PleaseChange",
-    "JWT_EXPIRATION":"10000",
+    "JWT_ENCRYPTION":"HS256",
+    "JWT_EXPIRATION":"86400",
     "SECRET":"SecretKey"
 }

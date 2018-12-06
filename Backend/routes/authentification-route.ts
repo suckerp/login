@@ -40,8 +40,8 @@ function setToken(id:any){
         }, 
         config.SECRET, 
         {
-            algorithm: 'HS256',
-            expiresIn: 86400
+            algorithm: config.JWT_ENCRYPTION,
+            expiresIn: config.JWT_EXPIRATION
         }
     )
 }
