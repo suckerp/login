@@ -1,8 +1,11 @@
-require('dotenv').config()
+//require('dotenv').config()
 import express = require('express')
 import cors = require('cors')
-import fs = require('fs')
 import https = require('https')
+
+import fs = require('fs')
+const config = JSON.parse(fs.readFileSync('config.json',{encoding:"utf-8"}))
+export {config}
 
 //import { User } from './model/ownTypes'
 //import { database as db } from './model/dbAccess'
@@ -15,37 +18,39 @@ import {
 } from './routes'
 
 const app = express()
-const privateKey = fs.readFileSync('key.pem')
-const certificate = fs.readFileSync('cert.pem')
+
+const morgan = require('morgan')
+import path = require('path')
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+app.use(morgan('tiny', { stream: accessLogStream }))
 
 
 app.use(
     cors(),
     express.json(),
     express.urlencoded({extended:false}),
-    authentificationRoute
+    authentificationRoute,
 )
+
+//muss nicht laufen, besser auf dem Webserver ein Redirect von http auf https einrichten
+app.listen(config.PORT, ()=>{
+        console.log(`
+        Server wurde gestartet
+        url: http://localhost:${config.PORT} 
+    `)
+})
 
 
 https.createServer({
-    key: privateKey,
-    cert: certificate
-}, app).listen(process.env.SSL_PORT);
-
-
-/*
-// benötigt OpenSLL um zu funktionieren
-pem.createCertificate({ days: 365, selfSigned: true },  (err, keys) => {    
-    createServer({ key: keys.serviceKey, cert: keys.certificate }, app).listen(process.env.SSL_PORT)
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+}, app).listen(config.SSL_PORT, () => {
+    console.log(`
+        Server wurde gestartet
+        url: http://localhost:${config.SSL_PORT} 
+        `)
 })
-*/
+
 
 app.use(express.static('./public'))
-
-
-app.listen(process.env.PORT, ()=>{
-        console.log(`
-        Server wurde gestartet
-        url: http://localhost:${process.env.PORT} 
-    `)
-})

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { Request,Response , RequestHandler , NextFunction } from 'express'
 import { database as db } from '../model/dbAccess'
 import { User } from '../model/ownTypes'
-
+import { config } from '../server'
 
 class AuthentificationService {
     checkUser(email:string, password:string){
@@ -22,7 +22,7 @@ function routeGuard(req:Request,res:Response,next:NextFunction){
         res.status(401)
             .json({ auth: false, message: 'No token provided.' })
     } else {
-        jwt.verify(token, process.env.SECRET, (e:any, decoded:any) => 
+        jwt.verify(token, config.SECRET, (e:any, decoded:any) => 
         {
             if (e) {
                 return res.status(500)
@@ -38,7 +38,7 @@ function setToken(id:any){
         {
             id: id
         }, 
-        process.env.SECRET, 
+        config.SECRET, 
         {
             algorithm: 'HS256',
             expiresIn: 86400
@@ -119,10 +119,10 @@ route.post('/token', routeGuard, (req, res, next)=> {
             .json({ auth: false, message: 'No token provided.' })
     } else {
         //synchron + symmetrisch
-        const temp = jwt.verify(token, process.env.SECRET)
+        const temp = jwt.verify(token, config.SECRET)
 
         //asysnchron + symmetrisch
-        jwt.verify(token, process.env.SECRET, (e:any, decoded:any) => 
+        jwt.verify(token, config.SECRET, (e:any, decoded:any) => 
         {
             if (e) {
                 return res.status(500)
