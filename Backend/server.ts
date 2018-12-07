@@ -19,11 +19,24 @@ import {
 
 const app = express()
 
+//Logger
 const morgan = require('morgan')
 import path = require('path')
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+const accessLogStream = fs.createWriteStream(path.join('/log', 'access.log'), { flags: 'a' })
 
-app.use(morgan('tiny', { stream: accessLogStream }))
+app.use(morgan('common', { stream: accessLogStream }))
+
+app.use(require('express-bunyan-logger')({
+    obfuscate: ['body.password'],
+    excludes: ['body.password', 'req.body.password'],
+    name: 'logger',
+    streams: [{
+        level: 'info',
+        type: 'rotating-file',
+        path: '/log/log.log',
+        period: '1d'
+        }]
+    }))
 
 
 app.use(
@@ -48,7 +61,7 @@ https.createServer({
 }, app).listen(config.SSL_PORT, () => {
     console.log(`
         Server wurde gestartet
-        url: http://localhost:${config.SSL_PORT} 
+        url: https://localhost:${config.SSL_PORT} 
         `)
 })
 

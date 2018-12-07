@@ -54,7 +54,7 @@ route.get('/login', (req, res, next)=> {
 
 route.post('/login', (req, res, next) => {
     console.log(req.body)
-    authentificationService.checkUser(req.body.email, req.body.pw)
+    authentificationService.checkUser(req.body.email, req.body.password)
         .then((user:any) => {
             console.log(user)
             if (user[0]) {
@@ -87,7 +87,7 @@ route.post('/newUser', (req, res, next) => {
 })
 
 route.post('/checkUser', routeGuard, (req, res,next) => {
-    db.checkUser(req.body.email, req.body.pw)
+    db.checkUser(req.body.email, req.body.password)
         .then((results:any) => {
             if (results.length) {
                 //console.log(results)

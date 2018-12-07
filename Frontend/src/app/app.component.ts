@@ -9,14 +9,14 @@ import { CredentialsService } from './app.service'
     <button (click) = "token()">check</button>
     <div>
       <input #email>
-      <input type="password" #pw>
-      <button (click) = "newUser(email.value, pw.value)">neuer User</button>
+      <input type="password" #password>
+      <button (click) = "newUser(email.value, password.value)">neuer User</button>
     </div>
 
     <div>
       <input #email1>
-      <input type="password" #pw1>
-      <button (click) = "checkUser(email1.value, pw1.value)">check User</button>
+      <input type="password" #password1>
+      <button (click) = "checkUser(email1.value, password1.value)">check User</button>
     </div>
   `
 })
@@ -32,7 +32,7 @@ export class AppComponent {
   login(){
     this.http.post('https://localhost/login', {
       email: "test1@test.de",
-      pw: "test"
+      password: "test"
     })
     .subscribe(
       (x:any) => {
@@ -57,10 +57,10 @@ export class AppComponent {
     )
   }
 
-  newUser(email, pw) {
-    this.http.post('http://localhost:3000/newUser', {
+  newUser(email, password) {
+    this.http.post('https://localhost:3000/newUser', {
       email,
-      pw
+      password
     })
     .subscribe(
       (x:any) => {
@@ -73,10 +73,10 @@ export class AppComponent {
     )
   }
 
-  checkUser(email, pw) {
-    this.http.post('http://localhost:3000/checkUser', {
+  checkUser(email, password) {
+    this.http.post('https://localhost:3000/checkUser', {
       email,
-      pw
+      password
     })
     .subscribe(
       (x:any) => {
