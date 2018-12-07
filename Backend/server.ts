@@ -19,23 +19,45 @@ import {
 
 const app = express()
 
-//Logger
+// Morgan Logger
 const morgan = require('morgan')
 import path = require('path')
-const accessLogStream = fs.createWriteStream(path.join('/log', 'access.log'), { flags: 'a' })
+const accessLogStream = fs.createWriteStream(path.join(__dirname + '/logs', 'access.log'), { flags: 'a' })
 
 app.use(morgan('common', { stream: accessLogStream }))
 
+
 app.use(require('express-bunyan-logger')({
     obfuscate: ['body.password'],
-    excludes: ['body.password', 'req.body.password'],
+    excludes: ['body'],
     name: 'logger',
-    streams: [{
-        level: 'info',
-        type: 'rotating-file',
-        path: '/log/log.log',
-        period: '1d'
-        }]
+    streams: 
+        [
+            {
+                level: 'warn',
+                type: 'rotating-file',
+                path: __dirname + '/logs/warn.log',
+                period: '1d'
+            },
+            {
+                level: 'error',
+                type: 'rotating-file',
+                path: __dirname + '/logs/error.log',
+                period: '1d'
+            },
+            {
+                level: 'fatal',
+                type: 'rotating-file',
+                path: __dirname + '/logs/fatal.log',
+                period: '1d'
+            },
+            {
+                level: 'info',
+                type: 'rotating-file',
+                path: __dirname + '/logs/info.log',
+                period: '1d'
+            }
+        ]
     }))
 
 

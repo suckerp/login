@@ -62,7 +62,7 @@ export class AppComponent {
   }
 
   newUser(email, password) {
-    this.http.post('https://localhost:3000/newUser', {
+    this.http.post('https://localhost/newUser', {
     //this.http.post('/newUser', {
       email,
       password
@@ -79,7 +79,7 @@ export class AppComponent {
   }
 
   checkUser(email, password) {
-    this.http.post('http://localhost:3000/checkUser', {
+    this.http.post('http://localhost/checkUser', {
     //this.http.post('/checkUser', {
       email,
       password
