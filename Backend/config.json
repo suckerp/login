@@ -6,6 +6,6 @@
     "PORT":"3000",
     "SSL_PORT":"443",
     "JWT_ENCRYPTION":"HS256",
-    "JWT_EXPIRATION":"86400",
+    "JWT_EXPIRATION":"86400s",
     "SECRET":"SecretKey"
 }

@@ -2,10 +2,19 @@
 import express = require('express')
 import cors = require('cors')
 import https = require('https')
+import { Request, Response, NextFunction} from 'express'
+
 
 import fs = require('fs')
 const config = JSON.parse(fs.readFileSync('config.json',{encoding:"utf-8"}))
 export {config}
+
+export function wrapAsync(fn:Function) {
+    return (req:Request, res:Response, next:NextFunction) => {
+        fn(req, res, next).catch(next)
+    }
+}
+
 
 //import { User } from './model/ownTypes'
 //import { database as db } from './model/dbAccess'
@@ -18,6 +27,9 @@ import {
 } from './routes'
 
 const app = express()
+
+app.use(express.static('./public'))
+
 
 // Morgan Logger
 const morgan = require('morgan')
@@ -87,5 +99,27 @@ https.createServer({
         `)
 })
 
+app.use((err:any,req:Request,res:Response,next:NextFunction) => {
+    //console.log(err)
 
-app.use(express.static('./public'))
+    //console.log(JSON.parse(err.message))
+
+    /*
+    if (!err.errno) {
+        err = JSON.parse(err.message)
+    }*/
+
+    if (err.errno == 123){
+        console.log(err.name)
+        res.status(404).json(err)
+    } else {
+        console.log(err.message)
+        res.status(500).json(err)
+    }
+
+    //console.log(err.name)
+    //err = JSON.parse(err.message)
+    //console.log(err)
+    //console.log(err.message)
+    //res.status(500).json(JSON.parse(err.message))
+})

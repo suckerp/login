@@ -42,7 +42,7 @@ export class AppComponent {
         this.credentialsService.token = x.token
       },
       e => {
-        console.log(e)
+        console.log(e.status)
       }
     )
   }
@@ -57,6 +57,7 @@ export class AppComponent {
       },
       e => {
         console.log(e)
+        //console.log(e)
       }
     )
   }
@@ -74,12 +75,12 @@ export class AppComponent {
           console.log(x.token)
         }
       },
-      e => console.log(e)
+      e => console.log(e.error.message)
     )
   }
 
   checkUser(email, password) {
-    this.http.post('http://localhost/checkUser', {
+    this.http.post('https://localhost/checkUser', {
     //this.http.post('/checkUser', {
       email,
       password
@@ -88,7 +89,7 @@ export class AppComponent {
       (x:any) => {
         console.log(x)
       },
-      e => console.log(e)
+      e => console.log(e.error.message)
     )
   }
 
